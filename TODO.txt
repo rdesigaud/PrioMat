@@ -1,0 +1,28 @@
+Features:
+- Capture tasks
+	- Name (varchar(50))
+	- Priority (INT)
+	- Emergency (INT)
+- Save them in a local file
+- List tasks in a HTML table (sortable ? Searchable ?)
+- Display tasks in a scatter graph (prio x emergency)
+- Allow drag+drop for re-prio and re-emergency of tasks
+- split graph and tasks in diferent tabs
+
+Techno:
+- HTML for display
+- Flat file for tasks storage (JSON ?)
+- JQuery for dynamicity (tables with http://www.datatables.net/)
+- CSS for rendering
+- FLOT for graphing (http://www.flotcharts.org/)
+
+DataModel:
+	task[] = [[name, prio, emer],[name, prio, emer],[name, prio, emer],...]
+
+
+
+Roadmap:
+V1: Display takslist in a HTML table
+V2: save / edit new tasks
+v3: display tasks in a scatter graph
+v4: allow drag/drop

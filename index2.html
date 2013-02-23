@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="jquery-1.9.1.js"></script>
+<script type="text/javascript">
+
+function myalert(text){
+	alert(text);
+}
+
+if (window.File && window.FileReader && window.FileList && window.Blob) {
+  alert('All good - supported');
+  // Great success! All the File APIs are supported.
+} else {
+  alert('The File APIs are not fully supported in this browser.');
+}
+
+
+function toto(){
+		var names=[];
+		names[0]= prompt('Hello there');
+		localStorage['names'] = JSON.stringify(names);
+	
+}
+
+$(document).ready(function(){
+  $("button").click(function(){
+	alert('clicked');
+    toto();
+  });	
+  
+
+  
+});
+
+
+
+
+</script>
+
+
+</head> 
+
+
+<body>
+
+<button>Click me</button>
+
+
+<h1>My First Heading</h1>
+
+<p>My first paragraph.</p>
+
+</body>
+</html>

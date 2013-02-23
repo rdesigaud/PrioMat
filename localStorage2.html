@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style type="text/css" title="currentStyle">
+	@import "demo_page.css"; @import "css/header.ccss";
+	@import "demo_table.css";
+</style>
+
+<script src="jquery-1.9.1.js"></script>
+<script src="jquery.dataTables.js"></script>
+<script src="json2.js"></script>
+<script language="javascript" type="text/javascript" src="jquery.jqplot.min.js"></script>
+<link rel="stylesheet" type="text/css" href="jquery.jqplot.css" />
+
+<script type="text/javascript">
+
+var aDataSet = [];
+var oTable;
+
+function store(){
+	// Adding the row to the main tables
+	$('#theTable').dataTable().fnAddData( [
+		$("#fname").val(),         
+		$("#fprio").val(),         
+		$("#femer").val() ] ); 
+	
+	// Adding the row to the aDataSet internal array
+	aDataSet.push([
+		$("#fname").val(),         
+		$("#fprio").val(),         
+		$("#femer").val() ] );
+	
+	// Saving internal Array to localStorage - using a JSON encoding
+	localStorage['tasks'] = JSON.stringify(aDataSet, null, 2);
+	
+	alert('stored');
+}; //store()
+
+function remove(theRow){
+	var nTds=$('td', theRow);
+	// alert($(nTds[0]).text()); // the task name
+	// aDataSet = un array de array
+	
+	for (var i = 0; i < aDataSet.length; i++){
+		//alert('looping');
+		if (aDataSet[i].indexOf($(nTds[0]).text())>-1) {
+			alert(i);
+		};
+	}
+	
+	//alert([$(nTds[0]).text(),$(nTds[1]).text(),$(nTds[2]).text()]);
+	//alert(aDataSet.indexOf([$(nTds[0]).text(),$(nTds[1]).text(),$(nTds[2]).text()]));
+	
+	
+	//array.splice(index,howmany
+};// remove()
+
+function fnGetSelected( oTableLocal ) {     
+	return oTableLocal.$('tr.row_selected'); 
+}
+
+$(document).ready(function(){
+	// Preparing the buttons
+	$('#btAdd').click(function(){
+		store();
+	});
+	
+	$('#btClear').click(function(){
+		if (confirm("Are you sure you want to clear ?")==true) {
+			localStorage.clear();
+			alert('ok - cleared');
+		}
+	});
+	
+
+	//loading possible tasks from localStorage
+	if (typeof localStorage['tasks'] == 'undefined'){
+		alert('no tasks found in localstorage');
+	} else {
+		aDataSet = JSON.parse(localStorage['tasks']);
+	}
+
+	// Creating the table
+	oTable = $('#theTable').dataTable( {
+		"aaData": aDataSet,
+		"aoColumns": [
+			{ "sTitle": "TaskName" },
+			{ "sTitle": "Priority" },
+			{ "sTitle": "Emergency" }
+		]
+	} );  
+	
+	// making table rows selectable
+	$("#theTable tbody tr").click( function( e ) {
+		//alert('clicked');
+		if ( $(this).hasClass('row_selected') ) {
+			$(this).removeClass('row_selected');         
+		} else {             
+			oTable.$('tr.row_selected').removeClass('row_selected');
+			$(this).addClass('row_selected');         
+		}     
+	});           
+	/* Add a click handler for the delete row */    
+	$('#delete').click( function() {         
+		alert('delete');
+		var anSelected = fnGetSelected( oTable );
+		if ( anSelected.length !== 0 ) {
+			alert(anSelected[0]);
+			oTable.fnDeleteRow(anSelected[0]);
+			//alert(typeof anSelected[0]);
+			remove(anSelected[0]);
+		}     
+	} ); 
+	
+
+	
+	
+	// plotting a chart
+	//$.jqplot('chartdiv',  [[[1, 2],[3,5.12],[5,13.1],[7,33.6],[9,85.9],[11,219.9]]]);
+	$.jqplot('chartdiv', aDataSet);
+});
+
+
+</script>
+</head> 
+<body>
+
+<div id="table">
+	<table cellpadding="0" cellspacing="0" border="0" class="display" id="theTable"></table>
+</div>
+<br>
+<br>
+<br>
+Name: <input type="text" id="fname" name="fname"><br>
+Prio: <input type="text" id="fprio" name="fprio"><br>
+Emer: <input type="text" id="femer" name="femer"><br>
+<button id="btAdd">Store</button><br>
+<button id="btClear">Clear</button>
+<br>
+<p><a href="javascript:void(0)" id="delete">Delete selected row</a></p>
+<br>
+<div id="chartdiv" style="height:400px;width:300px; "></div> 
+
+
+</body>
+</html>

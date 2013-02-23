@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="jquery-1.9.1.js"></script>
+<script>
+var myvar = 'initial';
+
+
+function myalert(text){
+	alert(text);
+}
+
+
+$(document).ready(function(){
+
+	alert('page loaded');
+	$.get('foo.txt', function(data) {
+		myalert(data);
+	});
+
+
+  $("button").click(function(){
+    $("p").hide();
+  });
+
+  // initializing the table
+	var mycars = new Array();
+	mycars[0] = myvar; // "Saab";
+	mycars[1] = "Volvo";
+	mycars[2] = "BMW";
+  
+	var table = document.createElement("table");
+	var i = 0;
+	for (var r = 0; r < 3; r++) {
+		var row = table.insertRow(-1);
+		for (var c = 0; c < 3; c++) {
+		var cell = row.insertCell(-1);
+    cell.appendChild(document.createTextNode(mycars[i++]));
+	}
+}
+document.body.appendChild(table);
+ 
+
+ 
+  
+});
+</script>
+
+
+</head> 
+
+
+<body>
+
+<button>Click me</button>
+
+
+<h1>My First Heading</h1>
+
+<p>My first paragraph.</p>
+
+</body>
+</html>
